@@ -86,7 +86,7 @@ public class WVirtualArea implements WLayoutElement {
 	}
 
 	@Override
-	public void draw(MatrixStack matrices, VertexConsumerProvider provider) {
+	public void draw(MatrixStack matrices, VertexConsumerProvider.Immediate provider) {
 	}
 
 	public boolean isWithinBounds(float x, float y) {

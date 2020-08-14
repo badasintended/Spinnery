@@ -218,7 +218,7 @@ public class WInterface implements WModifiableCollection, WLayoutElement, WThema
 	}
 
 	@Override
-	public void draw(MatrixStack matrices, VertexConsumerProvider provider) {
+	public void draw(MatrixStack matrices, VertexConsumerProvider.Immediate provider) {
 		for (WLayoutElement widget : widgets) {
 			widget.draw(matrices, provider);
 		}

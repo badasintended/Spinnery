@@ -1,10 +1,11 @@
 package spinnery.client.screen;
 
+import me.shedaniel.rei.impl.ScreenHelper;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
-import net.minecraft.client.render.Tessellator;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerEntity;
@@ -12,7 +13,6 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 import org.lwjgl.glfw.GLFW;
-import spinnery.client.render.BaseRenderer;
 import spinnery.client.render.layer.SpinneryLayers;
 import spinnery.common.handler.BaseScreenHandler;
 import spinnery.common.utility.MouseUtilities;
@@ -36,9 +36,9 @@ public class BaseHandledScreen<T extends BaseScreenHandler> extends HandledScree
 	/**
 	 * Instantiates a BaseHandledScreen.
 	 *
-	 * @param name            Name to be used for Narrator.
-	 * @param handler         Handler associated with screen.
-	 * @param player          Player associated with screen.
+	 * @param name    Name to be used for Narrator.
+	 * @param handler Handler associated with screen.
+	 * @param player  Player associated with screen.
 	 */
 	@Environment(EnvType.CLIENT)
 	public BaseHandledScreen(Text name, T handler, PlayerEntity player) {
@@ -64,22 +64,13 @@ public class BaseHandledScreen<T extends BaseScreenHandler> extends HandledScree
 	public void render(MatrixStack matrices, int mouseX, int mouseY, float tickDelta) {
 		this.fillGradient(matrices, 0, 0, this.width, this.height, -1072689136, -804253680);
 
+		if (FabricLoader.getInstance().isModLoaded("roughlyenoughitems")) {
+			ScreenHelper.getLastOverlay().render(matrices, mouseX, mouseY, tickDelta);
+		}
+
 		VertexConsumerProvider.Immediate provider = MinecraftClient.getInstance().getBufferBuilders().getEntityVertexConsumers();
 
 		clientInterface.draw(matrices, provider);
-
-		ItemStack stackA;
-
-		if (getHandler().getPreviewCursorStack().isEmpty() && getHandler().getDragSlots(GLFW.GLFW_MOUSE_BUTTON_1).isEmpty() && getHandler().getDragSlots(GLFW.GLFW_MOUSE_BUTTON_2).isEmpty()) {
-			stackA = getHandler().getPlayerInventory().getCursorStack();
-		} else {
-			stackA = getHandler().getPreviewCursorStack();
-		}
-
-		BaseRenderer.getAdvancedItemRenderer().renderInGui(matrices, provider, stackA, mouseX - 8, mouseY - 8, Integer.MAX_VALUE);
-		BaseRenderer.getAdvancedItemRenderer().renderGuiItemOverlay(matrices, provider, BaseRenderer.getDefaultTextRenderer(), stackA, (mouseX - 8), mouseY - 8, Integer.MAX_VALUE);
-
-		super.render(matrices, mouseX, mouseY, tickDelta);
 
 		for (WAbstractWidget widget : clientInterface.getAllWidgets()) {
 			if (widget.isFocused()) {
@@ -90,6 +81,19 @@ public class BaseHandledScreen<T extends BaseScreenHandler> extends HandledScree
 		provider.draw(SpinneryLayers.getFlat());
 		provider.draw(SpinneryLayers.getTooltip());
 		provider.draw();
+
+		ItemStack stackA;
+
+		if (getHandler().getPreviewCursorStack().isEmpty() && getHandler().getDragSlots(GLFW.GLFW_MOUSE_BUTTON_1).isEmpty() && getHandler().getDragSlots(GLFW.GLFW_MOUSE_BUTTON_2).isEmpty()) {
+			stackA = getHandler().getPlayerInventory().getCursorStack();
+		} else {
+			stackA = getHandler().getPreviewCursorStack();
+		}
+
+		itemRenderer.zOffset += 200;
+		itemRenderer.renderInGui(stackA, mouseX - 8, mouseY - 8);
+		itemRenderer.renderGuiItemOverlay(textRenderer, stackA, (mouseX - 8), mouseY - 8);
+		itemRenderer.zOffset -= 200;
 
 		if (getDrawSlot() != null && getHandler().getPlayerInventory().getCursorStack().isEmpty() && !getDrawSlot().getStack().isEmpty()) {
 			this.renderTooltip(matrices, getDrawSlot().getStack(), (int) getTooltipX(), (int) getTooltipY());
@@ -223,8 +227,7 @@ public class BaseHandledScreen<T extends BaseScreenHandler> extends HandledScree
 		clientInterface.onKeyPressed(keyCode, character, keyModifier);
 
 		if (keyCode == GLFW.GLFW_KEY_ESCAPE || MinecraftClient.getInstance().options.keyInventory.matchesKey(keyCode, character)) {
-			if (clientInterface.getAllWidgets().stream().noneMatch(widget -> widget instanceof WContextLock && ((WContextLock) widget).isActive())) {
-				MinecraftClient.getInstance().player.closeHandledScreen();
+			if (clientInterface.getAllWidgets().stream().anyMatch(widget -> widget instanceof WContextLock && ((WContextLock) widget).isActive())) {
 				return true;
 			}
 		}

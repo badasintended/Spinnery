@@ -2,7 +2,6 @@ package spinnery.widget;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.util.math.MatrixStack;
@@ -11,7 +10,6 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Tickable;
 import spinnery.Spinnery;
-import spinnery.client.render.BaseRenderer;
 import spinnery.client.render.TextRenderer;
 import spinnery.common.registry.ThemeRegistry;
 import spinnery.common.registry.WidgetRegistry;
@@ -241,7 +239,7 @@ public abstract class WAbstractWidget implements Tickable, WLayoutElement, WThem
 		if (parent != null) parent.onLayoutChange();
 		if (position != null) position.onLayoutChange();
 		if (size != null) size.onLayoutChange();
-		
+
 		if (Spinnery.ENVIRONMENT == EnvType.CLIENT) {
 			updateFocus(MouseUtilities.mouseX, MouseUtilities.mouseY);
 		}
@@ -331,12 +329,12 @@ public abstract class WAbstractWidget implements Tickable, WLayoutElement, WThem
 
 	@Override
 	@Environment(EnvType.CLIENT)
-	public void draw(MatrixStack matrices, VertexConsumerProvider provider) {
+	public void draw(MatrixStack matrices, VertexConsumerProvider.Immediate provider) {
 		if (hidden) return;
 	}
 
 	@Override
-	public void drawTooltip(MatrixStack matrices, VertexConsumerProvider provider) {
+	public void drawTooltip(MatrixStack matrices, VertexConsumerProvider.Immediate provider) {
 		List<Text> list = getTooltip();
 
 		if (list.isEmpty()) return;

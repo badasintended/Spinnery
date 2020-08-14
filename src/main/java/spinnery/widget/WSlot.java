@@ -5,6 +5,7 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.render.VertexConsumerProvider;
+import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
@@ -15,7 +16,6 @@ import net.minecraft.util.Identifier;
 import org.apache.logging.log4j.Level;
 import spinnery.Spinnery;
 import spinnery.client.render.BaseRenderer;
-import spinnery.client.screen.BaseContainerScreen;
 import spinnery.client.screen.BaseHandledScreen;
 import spinnery.common.handler.BaseScreenHandler;
 import spinnery.widget.api.Action;
@@ -204,7 +204,7 @@ public class WSlot extends WAbstractWidget {
 
 	@Override
 	@Environment(EnvType.CLIENT)
-	public void draw(MatrixStack matrices, VertexConsumerProvider provider) {
+	public void draw(MatrixStack matrices, VertexConsumerProvider.Immediate provider) {
 		if (isHidden()) {
 			return;
 		}
@@ -222,15 +222,21 @@ public class WSlot extends WAbstractWidget {
 			BaseRenderer.drawTexturedQuad(matrices, provider, x + 1, y + 1, z, sX - 2, sY - 2, getPreviewTexture());
 		}
 
+		provider.draw();
+
 		ItemStack stackA = getPreviewStack().isEmpty() ? getStack() : getPreviewStack();
 
-		BaseRenderer.getAdvancedItemRenderer().renderInGui(matrices, provider, stackA, ((x + 1) + ((sX - 18) / 2)), ((y + 1) + ((sY - 18) / 2)), z);
-		BaseRenderer.getAdvancedItemRenderer().renderGuiItemOverlay(matrices, provider, MinecraftClient.getInstance().textRenderer, stackA, x, y, z + 1, stackA.getCount() == 1 ? "" : withSuffix(stackA.getCount()));
+		ItemRenderer itemRenderer = BaseRenderer.getItemRenderer();
+		int itemX = (int) ((1 + x) + ((sX - 18) / 2));
+		int itemY = (int) ((1 + y) + ((sY - 18) / 2));
+
+		itemRenderer.renderGuiItemIcon(stackA, itemX, itemY);
+		itemRenderer.renderGuiItemOverlay(BaseRenderer.getTextRenderer(), stackA, itemX, itemY, stackA.getCount() == 1 ? "" : withSuffix(stackA.getCount()));
 
 		if (isFocused()) {
-			BaseRenderer.drawQuad(matrices, provider, x + 1, y + 1, z + 1, sX - 2, sY - 2, getStyle().asColor("overlay"));
+			BaseRenderer.drawQuad(matrices, provider, x + 1, y + 1, z + 200, sX - 2, sY - 2, getStyle().asColor("overlay"));
 		}
-		
+
 		super.draw(matrices, provider);
 	}
 
@@ -249,14 +255,18 @@ public class WSlot extends WAbstractWidget {
 		boolean isCursorEmpty = player.inventory.getCursorStack().isEmpty();
 
 		if (!skipRelease && !Screen.hasShiftDown()) {
-			if (isDragging) {
-				handler.onSlotDrag(slotNumbers, inventoryNumbers, Action.of(button, true));
-				INSTANCE.sendToServer(SLOT_DRAG_PACKET, createSlotDragPacket(handler.syncId, slotNumbers, inventoryNumbers, Action.of(button, true)));
-			} else if (!isFocused()) {
+			if (button == LEFT || button == RIGHT) {
+				if (isDragging) {
+					handler.onSlotDrag(slotNumbers, inventoryNumbers, Action.of(button, true));
+					INSTANCE.sendToServer(SLOT_DRAG_PACKET, createSlotDragPacket(handler.syncId, slotNumbers, inventoryNumbers, Action.of(button, true)));
+				} else if (!isFocused()) {
+					return;
+				} else if (!isCursorEmpty) {
+					handler.onSlotAction(slotNumber, inventoryNumber, button, PICKUP, player);
+					INSTANCE.sendToServer(SLOT_CLICK_PACKET, createSlotClickPacket(handler.syncId, slotNumber, inventoryNumber, button, PICKUP));
+				}
+			} else {
 				return;
-			} else if ((button == LEFT || button == RIGHT) && !isCursorEmpty) {
-				handler.onSlotAction(slotNumber, inventoryNumber, button, PICKUP, player);
-				INSTANCE.sendToServer(SLOT_CLICK_PACKET, createSlotClickPacket(handler.syncId, slotNumber, inventoryNumber, button, PICKUP));
 			}
 		}
 
@@ -416,7 +426,7 @@ public class WSlot extends WAbstractWidget {
 	}
 
 	@Environment(EnvType.CLIENT)
-	private static String withSuffix(long value) {
+	protected static String withSuffix(long value) {
 		if (value < 1000) return "" + value;
 		int exp = (int) (Math.log(value) / Math.log(1000));
 		return String.format("%.1f%c", value / Math.pow(1000, exp), "KMGTPE".charAt(exp - 1));

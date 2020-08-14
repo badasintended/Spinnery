@@ -12,7 +12,7 @@ import spinnery.widget.api.Size;
 @Environment(EnvType.CLIENT)
 public class WHorizontalSlider extends WAbstractSlider {
 	@Override
-	public void draw(MatrixStack matrices, VertexConsumerProvider provider) {
+	public void draw(MatrixStack matrices, VertexConsumerProvider.Immediate provider) {
 		if (isHidden()) {
 			return;
 		}

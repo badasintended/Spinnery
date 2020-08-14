@@ -1,11 +1,9 @@
 package spinnery.debug;
 
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.Items;
 import net.minecraft.text.Text;
 import spinnery.client.screen.BaseHandledScreen;
-import spinnery.client.screen.BaseScreen;
 import spinnery.widget.*;
 import spinnery.widget.api.Position;
 import spinnery.widget.api.Size;

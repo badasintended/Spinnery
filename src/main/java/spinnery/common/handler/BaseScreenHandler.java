@@ -9,6 +9,7 @@ import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.screen.ScreenHandler;
+import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -43,8 +44,8 @@ public class BaseScreenHandler extends ScreenHandler {
 	protected final WInterface serverInterface;
 	public Map<Integer, Inventory> inventories = new HashMap<>();
 	public Map<Integer, Map<Integer, ItemStack>> cachedInventories = new HashMap<>();
-	protected Set<WSlot> splitSlots = new HashSet<>();
-	protected Set<WSlot> singleSlots = new HashSet<>();
+	protected Set<WSlot> splitSlots = new LinkedHashSet<>();
+	protected Set<WSlot> singleSlots = new LinkedHashSet<>();
 	protected Map<Integer, Map<Integer, ItemStack>> previewStacks = new HashMap<>();
 	protected ItemStack previewCursorStack = ItemStack.EMPTY;
 	protected World world;
@@ -55,8 +56,8 @@ public class BaseScreenHandler extends ScreenHandler {
 	 * @param synchronizationID ID to be used for synchronization of this handler.
 	 * @param playerInventory   PlayerInventory of Player associated with this handler.
 	 */
-	public BaseScreenHandler(int synchronizationID, PlayerInventory playerInventory) {
-		super(null, synchronizationID);
+	public BaseScreenHandler(ScreenHandlerType<?> type, int synchronizationID, PlayerInventory playerInventory) {
+		super(type, synchronizationID);
 		addInventory(PLAYER_INVENTORY, playerInventory);
 		setWorld(playerInventory.player.world);
 		serverInterface = new WInterface(this);
@@ -187,13 +188,13 @@ public class BaseScreenHandler extends ScreenHandler {
 	 * @param action          Action which was performed.
 	 */
 	public void onSlotDrag(int[] slotNumber, int[] inventoryNumber, Action action) {
-		HashMap<Integer, WSlot> slots = new HashMap<>();
+		Set<WSlot> slots = new LinkedHashSet<>();
 
 		for (int i = 0; i < slotNumber.length; ++i) {
 			WSlot slot = getInterface().getSlot(inventoryNumber[i], slotNumber[i]);
 
 			if (slot != null) {
-				slots.put(i, slot);
+				slots.add(slot);
 			}
 		}
 
@@ -204,7 +205,7 @@ public class BaseScreenHandler extends ScreenHandler {
 		int split;
 
 		if (action.isSplit()) {
-			split = getPlayerInventory().getCursorStack().getCount() / slots.size();
+			split = Math.max(getPlayerInventory().getCursorStack().getCount() / slots.size(), 1);
 		} else {
 			split = 1;
 		}
@@ -221,28 +222,23 @@ public class BaseScreenHandler extends ScreenHandler {
 			return;
 		}
 
-
-		for (Integer number : slots.keySet()) {
-			WSlot slotA = slots.get(number);
-
+		for (WSlot slotA : slots) {
 			if (slotA.refuses(stackA)) continue;
 
 			ItemStack stackB;
-
 			if (action.isPreview()) {
 				stackB = slotA.getStack().copy();
 			} else {
 				stackB = slotA.getStack();
 			}
-
 			MutablePair<ItemStack, ItemStack> stacks = StackUtilities.merge(stackA, stackB, split, Math.min(stackA.getMaxCount(), split));
 
 			if (action.isPreview()) {
-				slotA.getInterface().getHandler().previewCursorStack = stacks.getFirst().copy();
+				this.previewCursorStack = stacks.getFirst().copy();
 				slotA.setPreviewStack(stacks.getSecond().copy());
 			} else {
 				stackA = stacks.getFirst();
-				slotA.getInterface().getHandler().previewCursorStack = ItemStack.EMPTY;
+				this.previewCursorStack = ItemStack.EMPTY;
 				slotA.setStack(stacks.getSecond());
 			}
 		}

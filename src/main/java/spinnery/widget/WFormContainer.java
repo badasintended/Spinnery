@@ -214,7 +214,7 @@ public class WFormContainer extends WAbstractWidget implements WModifiableCollec
 	}
 
 	@Override
-	public void draw(MatrixStack matrices, VertexConsumerProvider provider) {
+	public void draw(MatrixStack matrices, VertexConsumerProvider.Immediate provider) {
 		if (isHidden()) {
 			return;
 		}

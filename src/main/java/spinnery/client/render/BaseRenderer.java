@@ -1,6 +1,5 @@
 package spinnery.client.render;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.render.OverlayTexture;
@@ -11,13 +10,11 @@ import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.texture.TextureManager;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
-import spinnery.access.ItemRendererAccessor;
 import spinnery.access.TextRendererAccessor;
 import spinnery.client.render.layer.SpinneryLayers;
 import spinnery.widget.api.Color;
 
 public class BaseRenderer {
-	private static final AdvancedItemRenderer advancedItemRenderer = new AdvancedItemRenderer();
 	private static final AdvancedTextRenderer advancedTextRenderer = new AdvancedTextRenderer();
 
 	public static void drawQuad(MatrixStack matrices, VertexConsumerProvider provider, RenderLayer layer, float x, float y, float z, float sX, float sY, Color color) {
@@ -160,12 +157,10 @@ public class BaseRenderer {
 		consumer.vertex(matrices.peek().getModel(), x, y, z).color(color.R, color.G, color.B, color.A).texture(u0, v0).overlay(OverlayTexture.DEFAULT_UV).light(light).normal(matrices.peek().getNormal(), 0, 0, 0).next();
 	}
 
-	@Deprecated
 	public static ItemRenderer getItemRenderer() {
 		return getDefaultItemRenderer();
 	}
 
-	@Deprecated
 	public static TextRenderer getTextRenderer() {
 		return getDefaultTextRenderer();
 	}
@@ -180,16 +175,6 @@ public class BaseRenderer {
 
 	public static TextRenderer getDefaultTextRenderer() {
 		return MinecraftClient.getInstance().textRenderer;
-	}
-
-	public static AdvancedItemRenderer getAdvancedItemRenderer() {
-		ItemRenderer defaultRenderer = getDefaultItemRenderer();
-
-		advancedItemRenderer.setColorMap(((ItemRendererAccessor) defaultRenderer).spinner_getColorMap());
-		advancedItemRenderer.setModels(((ItemRendererAccessor) defaultRenderer).spinnery_getModels());
-		advancedItemRenderer.setTextureManager(((ItemRendererAccessor) defaultRenderer).spinnery_getTextureManager());
-
-		return advancedItemRenderer;
 	}
 
 	public static AdvancedTextRenderer getAdvancedTextRenderer() {

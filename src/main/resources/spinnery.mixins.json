@@ -6,7 +6,7 @@
 	"ItemStackMixin"
   ],
   "client": [
-	"InGameHudMixin", "GlyphRendererMixin", "ItemRendererMixin", "TextRendererMixin"
+	"InGameHudMixin", "GlyphRendererMixin", "TextRendererMixin"
   ],
   "injectors": {
 	"defaultRequire": 1

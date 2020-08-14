@@ -112,7 +112,7 @@ public class WDraggableContainer extends WAbstractWidget implements WModifiableC
 	}
 
 	@Override
-	public void draw(MatrixStack matrices, VertexConsumerProvider provider) {
+	public void draw(MatrixStack matrices, VertexConsumerProvider.Immediate provider) {
 		if (isHidden()) {
 			return;
 		}

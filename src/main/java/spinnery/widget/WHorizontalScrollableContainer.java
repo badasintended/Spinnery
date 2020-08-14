@@ -214,7 +214,7 @@ public class WHorizontalScrollableContainer extends WAbstractWidget implements W
 	}
 
 	@Override
-	public void draw(MatrixStack matrices, VertexConsumerProvider provider) {
+	public void draw(MatrixStack matrices, VertexConsumerProvider.Immediate provider) {
 		if (isHidden()) {
 			return;
 		}

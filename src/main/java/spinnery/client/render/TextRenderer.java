@@ -13,15 +13,15 @@ public class TextRenderer {
 	}
 
 	public static int height() {
-		return BaseRenderer.getAdvancedTextRenderer().fontHeight;
+		return BaseRenderer.getTextRenderer().fontHeight;
 	}
 
 	public static int width(char character) {
-		return BaseRenderer.getAdvancedTextRenderer().getWidth(String.valueOf(character));
+		return BaseRenderer.getTextRenderer().getWidth(String.valueOf(character));
 	}
 
 	public static int width(String string) {
-		return BaseRenderer.getAdvancedTextRenderer().getWidth(string);
+		return BaseRenderer.getTextRenderer().getWidth(string);
 	}
 
 	public static int width(Text text) {
@@ -111,7 +111,7 @@ public class TextRenderer {
 			return this;
 		}
 
-		public void render(MatrixStack matrices, VertexConsumerProvider provider) {
+		public void render(MatrixStack matrices, VertexConsumerProvider.Immediate provider) {
 			matrices.push();
 
 			matrices.scale(scale, scale, 0);

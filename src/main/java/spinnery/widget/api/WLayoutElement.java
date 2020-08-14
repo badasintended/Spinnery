@@ -17,12 +17,12 @@ public interface WLayoutElement extends WPositioned, WSized, Comparable<WLayoutE
 	/**
 	 * Method called on every frame, where widget rendering happens.
 	 */
-	void draw(MatrixStack matrices, VertexConsumerProvider provider);
+	void draw(MatrixStack matrices, VertexConsumerProvider.Immediate provider);
 
 	/**
 	 * Method called every frame, where widget tooltip rendering happens.
 	 */
-	default void drawTooltip(MatrixStack matrices, VertexConsumerProvider provider) {
+	default void drawTooltip(MatrixStack matrices, VertexConsumerProvider.Immediate provider) {
 		return;
 	}
 

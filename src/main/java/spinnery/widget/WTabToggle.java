@@ -3,6 +3,7 @@ package spinnery.widget;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.render.VertexConsumerProvider;
+import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemConvertible;
@@ -28,7 +29,7 @@ public class WTabToggle extends WAbstractToggle {
 	}
 
 	@Override
-	public void draw(MatrixStack matrices, VertexConsumerProvider provider) {
+	public void draw(MatrixStack matrices, VertexConsumerProvider.Immediate provider) {
 		if (isHidden()) {
 			return;
 		}
@@ -90,7 +91,11 @@ public class WTabToggle extends WAbstractToggle {
 		Item symbol = getSymbol();
 
 		if (symbol != null && sX >= 24) {
-			BaseRenderer.getAdvancedItemRenderer().renderGuiItemIcon(matrices, provider, new ItemStack(symbol, 1), (int) x + 4 + ((sX - 24) / 2), (int) y + 6, z + 100F);
+			//BaseRenderer.getAdvancedItemRenderer().renderGuiItemIcon(matrices, provider, new ItemStack(symbol, 1), (int) x + 4 + ((sX - 24) / 2), (int) y + 6, z + 100F);
+			ItemRenderer itemRenderer = BaseRenderer.getItemRenderer();
+			itemRenderer.zOffset += z + 100F;
+			itemRenderer.renderGuiItemIcon(new ItemStack(symbol), (int) (x + 4 + ((sX - 24) / 2)), (int) y + 6);
+			itemRenderer.zOffset -= z + 100F;
 		}
 
 		if (label != null && sX >= TextRenderer.width(label)) {
