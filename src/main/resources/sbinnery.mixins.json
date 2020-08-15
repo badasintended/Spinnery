@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "package": "sbinnery.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+	"ItemStackMixin"
+  ],
+  "client": [
+	"InGameHudMixin", "GlyphRendererAccessor", "TextRendererAccessor"
+  ],
+  "injectors": {
+	"defaultRequire": 1
+  }
+}

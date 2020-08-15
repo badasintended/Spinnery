@@ -1,34 +1,34 @@
 {
   "schemaVersion": 1,
-  "id": "spinnery",
+  "id": "sbinnery",
   "version": "${mod_version}",
-  "name": "Spinnery",
-  "description": "Spinnery, a complete GUI library for your needs.",
+  "name": "Sbinnery",
+  "description": "Blessed spinnery fork :tiny_potato:",
   "authors": [
     "vini2003"
   ],
   "contact": {
     "sources": "https://github.com/vini2003/spinnery"
   },
-  "license": "GPL v3.0",
+  "license": "LGPL v3.0",
   "icon": "assets/spinnery/icon.png",
   "environment": "*",
   "entrypoints": {
     "main": [
-      "spinnery.Spinnery"
+      "sbinnery.Spinnery"
     ],
     "client": [
-      "spinnery.SpinneryClient"
+      "sbinnery.SpinneryClient"
     ],
     "modmenu": [
-      "spinnery.client.integration.SpinneryModMenu"
+      "sbinnery.client.integration.SpinneryModMenu"
     ],
     "rei_plugins": [
-      "spinnery.client.rei.SpinneryPlugin"
+      "sbinnery.client.rei.SpinneryPlugin"
     ]
   },
   "mixins": [
-    "spinnery.mixins.json"
+    "sbinnery.mixins.json"
   ],
   "depends": {
     "fabricloader": ">=0.4.0",
@@ -36,5 +36,8 @@
   },
   "suggests": {
     "flamingo": "*"
+  },
+  "custom": {
+    "modmenu:api": true
   }
 }
