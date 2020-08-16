@@ -6,6 +6,7 @@ import com.ibm.icu.text.ArabicShapingException;
 import com.ibm.icu.text.Bidi;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.CharacterVisitor;
 import net.minecraft.client.font.FontStorage;
 import net.minecraft.client.font.Glyph;
 import net.minecraft.client.font.TextHandler;
@@ -14,7 +15,7 @@ import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.util.math.Vector3f;
-import net.minecraft.text.StringRenderable;
+import net.minecraft.text.StringVisitable;
 import net.minecraft.text.Style;
 import net.minecraft.text.TextColor;
 import net.minecraft.util.Identifier;
@@ -60,7 +61,7 @@ public class AdvancedTextRenderer {
 		return this.draw(matrices, provider, text, x, y, z, color, true, rightToLeft);
 	}
 
-	public int drawWithShadow(MatrixStack matrices, VertexConsumerProvider provider, StringRenderable text, float x, float y, float z, int color) {
+	public int drawWithShadow(MatrixStack matrices, VertexConsumerProvider provider, StringVisitable text, float x, float y, float z, int color) {
 		return this.draw(matrices, provider, text, x, y, z, color, true);
 	}
 
@@ -68,17 +69,17 @@ public class AdvancedTextRenderer {
 		return this.draw(matrices, provider, text, x, y, z, color, false, this.isRightToLeft());
 	}
 
-	public int draw(MatrixStack matrices, VertexConsumerProvider provider, StringRenderable text, float x, float y, float z, int color) {
+	public int draw(MatrixStack matrices, VertexConsumerProvider provider, StringVisitable text, float x, float y, float z, int color) {
 		return this.draw(matrices, provider, text, x, y, z, color, false);
 	}
 
-	public void drawTrimmed(MatrixStack matrices, VertexConsumerProvider provider, StringRenderable text, float x, float y, float z, int maxWidth, int color) {
-		for (Iterator<StringRenderable> nextText = this.wrapLines(text, maxWidth).iterator(); nextText.hasNext(); y += 9) {
+	public void drawTrimmed(MatrixStack matrices, VertexConsumerProvider provider, StringVisitable text, float x, float y, float z, int maxWidth, int color) {
+		for (Iterator<StringVisitable> nextText = this.wrapLines(text, maxWidth).iterator(); nextText.hasNext(); y += 9) {
 			this.draw(matrices, provider, nextText.next(), x, y, z, color, false);
 		}
 	}
 
-	public int draw(MatrixStack matrices, VertexConsumerProvider provider, StringRenderable text, float x, float y, float z, int color, boolean shadow) {
+	public int draw(MatrixStack matrices, VertexConsumerProvider provider, StringVisitable text, float x, float y, float z, int color, boolean shadow) {
 		return this.draw(matrices, provider, text, x, y, z, color, shadow, false, 0, 15728880);
 	}
 
@@ -94,7 +95,7 @@ public class AdvancedTextRenderer {
 		return this.drawInternal(matrices, provider, text, x, y, z, color, shadow, seeThrough, backgroundColor, light, rightToLeft);
 	}
 
-	public int draw(MatrixStack matrices, VertexConsumerProvider provider, StringRenderable text, float x, float y, float z, int color, boolean shadow, boolean seeThrough, int backgroundColor, int light) {
+	public int draw(MatrixStack matrices, VertexConsumerProvider provider, StringVisitable text, float x, float y, float z, int color, boolean shadow, boolean seeThrough, int backgroundColor, int light) {
 		return this.drawInternal(matrices, provider, text, x, y, z, color, shadow, seeThrough, backgroundColor, light);
 	}
 
@@ -127,7 +128,7 @@ public class AdvancedTextRenderer {
 		return (int) x + (shadow ? 1 : 0);
 	}
 
-	private int drawInternal(MatrixStack matrices, VertexConsumerProvider provider, StringRenderable text, float x, float y, float z, int color, boolean shadow, boolean seeThrough, int backgroundColor, int light) {
+	private int drawInternal(MatrixStack matrices, VertexConsumerProvider provider, StringVisitable text, float x, float y, float z, int color, boolean shadow, boolean seeThrough, int backgroundColor, int light) {
 		matrices.push();
 
 		matrices.translate(x, y, z);
@@ -152,7 +153,7 @@ public class AdvancedTextRenderer {
 		return shadowDrawer.drawLayer(underlineColor, x);
 	}
 
-	private float drawLayer(MatrixStack matrices, VertexConsumerProvider provider, StringRenderable text, float x, float y, float z, int color, boolean shadow, boolean seeThrough, int underlineColor, int light) {
+	private float drawLayer(MatrixStack matrices, VertexConsumerProvider provider, StringVisitable text, float x, float y, float z, int color, boolean shadow, boolean seeThrough, int underlineColor, int light) {
 		ShadowDrawer shadowDrawer = new ShadowDrawer(matrices, provider, x, y, z, color, shadow, seeThrough, light);
 		TextVisitFactory.visitFormatted(text, Style.EMPTY, shadowDrawer);
 		return shadowDrawer.drawLayer(underlineColor, x);
@@ -170,8 +171,8 @@ public class AdvancedTextRenderer {
 		return MathHelper.ceil(this.handler.getWidth(text));
 	}
 
-	public int getWidth(StringRenderable stringRenderable) {
-		return MathHelper.ceil(this.handler.getWidth(stringRenderable));
+	public int getWidth(StringVisitable visitable) {
+		return MathHelper.ceil(this.handler.getWidth(visitable));
 	}
 
 	public String trimToWidth(String text, int maxWidth, boolean backwards) {
@@ -182,7 +183,7 @@ public class AdvancedTextRenderer {
 		return this.handler.trimToWidth(text, maxWidth, Style.EMPTY);
 	}
 
-	public StringRenderable trimToWidth(StringRenderable text, int width) {
+	public StringVisitable trimToWidth(StringVisitable text, int width) {
 		return this.handler.trimToWidth(text, width, Style.EMPTY);
 	}
 
@@ -190,7 +191,7 @@ public class AdvancedTextRenderer {
 		return 9 * this.handler.wrapLines(text, maxWidth, Style.EMPTY).size();
 	}
 
-	public List<StringRenderable> wrapLines(StringRenderable text, int width) {
+	public List<StringVisitable> wrapLines(StringVisitable text, int width) {
 		return this.handler.wrapLines(text, width, Style.EMPTY);
 	}
 
@@ -213,7 +214,7 @@ public class AdvancedTextRenderer {
 	}
 
 	@Environment(EnvType.CLIENT)
-	class ShadowDrawer implements TextVisitFactory.CharacterVisitor {
+	class ShadowDrawer implements CharacterVisitor {
 		private final VertexConsumerProvider provider;
 
 		private final MatrixStack matrices;
@@ -268,7 +269,7 @@ public class AdvancedTextRenderer {
 			this.rectangles = new ArrayList<>();
 		}
 
-		public boolean onChar(int i, Style style, int code) {
+		public boolean accept(int i, Style style, int code) {
 			FontStorage fontStorage = getFontStorage(style.getFont());
 
 			Glyph glyph = fontStorage.getGlyph(code);
@@ -334,7 +335,7 @@ public class AdvancedTextRenderer {
 			if (this.rectangles != null) {
 				AdvancedGlyphRenderer glyphRenderer = AdvancedGlyphRenderer.of(getFontStorage(Style.DEFAULT_FONT_ID).getRectangleRenderer());
 
-				VertexConsumer consumer = this.provider.getBuffer(glyphRenderer.method_24045(this.seeThrough));
+				VertexConsumer consumer = this.provider.getBuffer(glyphRenderer.getLayer(this.seeThrough));
 
 				for (AdvancedGlyphRenderer.Rectangle rectangle : rectangles) {
 					glyphRenderer.drawRectangle(matrices, consumer, rectangle, this.light);

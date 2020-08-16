@@ -39,7 +39,7 @@ public class AdvancedGlyphRenderer extends GlyphRenderer {
 
 	public static AdvancedGlyphRenderer of(GlyphRenderer glyphRenderer) {
 		GlyphRendererAccessor accessor = (GlyphRendererAccessor) glyphRenderer;
-		return new AdvancedGlyphRenderer(accessor.getField_21692(), accessor.getField_21693(), accessor.getUMin(), accessor.getUMax(), accessor.getVMin(), accessor.getVMax(), accessor.getXMin(), accessor.getXMax(), accessor.getYMin(), accessor.getYMax());
+		return new AdvancedGlyphRenderer(accessor.getTextLayer(), accessor.getSeeThroughTextLayer(), accessor.getUMin(), accessor.getUMax(), accessor.getVMin(), accessor.getVMax(), accessor.getXMin(), accessor.getXMax(), accessor.getYMin(), accessor.getYMax());
 	}
 
 	public void draw(MatrixStack matrices, VertexConsumer consumer, float x, float y, float z, float red, float green, float blue, float alpha, int light, boolean italic) {

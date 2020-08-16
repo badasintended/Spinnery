@@ -4,7 +4,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.text.StringRenderable;
+import net.minecraft.text.StringVisitable;
 import net.minecraft.text.Text;
 import sbinnery.widget.api.Color;
 import sbinnery.widget.api.Position;
@@ -121,12 +121,12 @@ public class TextRenderer {
 
 			if (maxWidth != Integer.MIN_VALUE) {
 				if (shadow)
-					BaseRenderer.getAdvancedTextRenderer().drawTrimmed(matrices, provider, StringRenderable.plain(shadowText), x + 1, y + 1, z, maxWidth, shadowColor);
-				BaseRenderer.getAdvancedTextRenderer().drawTrimmed(matrices, provider, StringRenderable.plain(text), x, y, z, maxWidth, color);
+					BaseRenderer.getAdvancedTextRenderer().drawTrimmed(matrices, provider, StringVisitable.plain(shadowText), x + 1, y + 1, z, maxWidth, shadowColor);
+				BaseRenderer.getAdvancedTextRenderer().drawTrimmed(matrices, provider, StringVisitable.plain(text), x, y, z, maxWidth, color);
 			} else {
 				if (shadow)
-					BaseRenderer.getAdvancedTextRenderer().draw(matrices, provider, StringRenderable.plain(shadowText), x + 1, y + 1, z, shadowColor);
-				BaseRenderer.getAdvancedTextRenderer().draw(matrices, provider, StringRenderable.plain(text), x, y, z, color);
+					BaseRenderer.getAdvancedTextRenderer().draw(matrices, provider, StringVisitable.plain(shadowText), x + 1, y + 1, z, shadowColor);
+				BaseRenderer.getAdvancedTextRenderer().draw(matrices, provider, StringVisitable.plain(text), x, y, z, color);
 			}
 
 			matrices.pop();

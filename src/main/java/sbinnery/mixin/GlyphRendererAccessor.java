@@ -9,10 +9,10 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 public interface GlyphRendererAccessor {
 
 	@Accessor
-	RenderLayer getField_21692();
+	RenderLayer getTextLayer();
 
 	@Accessor
-	RenderLayer getField_21693();
+	RenderLayer getSeeThroughTextLayer();
 
 	@Accessor
 	float getUMin();
