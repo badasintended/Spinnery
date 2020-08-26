@@ -1,10 +1,14 @@
 package sbinnery.widget;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+
 /**
  * A WAbstractBar provides the basics necessary for a
  * general button-like widget, like a {@link WButton}
  * and {@link WTexturedButton}.
  */
+@Environment(EnvType.CLIENT)
 public abstract class WAbstractButton extends WAbstractWidget {
 	protected boolean lowered = false;
 	protected int ticks = 0;

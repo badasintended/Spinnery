@@ -4,6 +4,8 @@ import blue.endless.jankson.Jankson;
 import blue.endless.jankson.JsonElement;
 import blue.endless.jankson.JsonObject;
 import com.google.common.collect.BiMap;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.text.TranslatableText;
@@ -26,6 +28,7 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.util.Map;
 
+@Environment(EnvType.CLIENT)
 public abstract class ConfigurationScreen extends BaseScreen {
 	protected static String name = "default";
 

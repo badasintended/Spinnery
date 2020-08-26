@@ -1,5 +1,6 @@
 package sbinnery.common.handler;
 
+import com.google.common.collect.Sets;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.network.ServerSidePacketRegistry;
@@ -128,7 +129,7 @@ public class BaseScreenHandler extends ScreenHandler {
 			case 1:
 				return singleSlots;
 			default:
-				return null;
+				return Sets.newLinkedHashSet();
 		}
 	}
 
@@ -424,7 +425,6 @@ public class BaseScreenHandler extends ScreenHandler {
 						ServerSidePacketRegistry.INSTANCE.sendToPlayer(this.getPlayerInventory().player, NetworkRegistry.SLOT_UPDATE_PACKET, NetworkRegistry.createSlotUpdatePacket(syncId, slotA.getSlotNumber(), slotA.getInventoryNumber(), slotA.getStack()));
 					}
 
-					cachedInventories.get(slotA.getInventoryNumber()).put(slotA.getSlotNumber(), slotA.getStack().copy());
 				} else {
 					cachedInventories.computeIfAbsent(slotA.getInventoryNumber(), value -> new HashMap<>());
 
@@ -435,8 +435,8 @@ public class BaseScreenHandler extends ScreenHandler {
 						ServerSidePacketRegistry.INSTANCE.sendToPlayer(this.getPlayerInventory().player, NetworkRegistry.SLOT_UPDATE_PACKET, NetworkRegistry.createSlotUpdatePacket(syncId, slotA.getSlotNumber(), slotA.getInventoryNumber(), slotA.getStack()));
 					}
 
-					cachedInventories.get(slotA.getInventoryNumber()).put(slotA.getSlotNumber(), slotA.getStack().copy());
 				}
+				cachedInventories.get(slotA.getInventoryNumber()).put(slotA.getSlotNumber(), slotA.getStack().copy());
 			}
 		}
 	}

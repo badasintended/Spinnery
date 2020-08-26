@@ -1,11 +1,14 @@
 package sbinnery.client.utility;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.VertexConsumerProvider;
 import sbinnery.widget.api.WLayoutElement;
 
 import static org.lwjgl.opengl.GL11.*;
 
+@Environment(EnvType.CLIENT)
 public class ScissorArea {
 	private static final int max = 512;
 	private static final ScissorArea[] objects = new ScissorArea[max];

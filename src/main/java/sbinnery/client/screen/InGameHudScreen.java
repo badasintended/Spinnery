@@ -1,5 +1,7 @@
 package sbinnery.client.screen;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.hud.InGameHud;
 import sbinnery.widget.WInterface;
 
@@ -7,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+@Environment(EnvType.CLIENT)
 public class InGameHudScreen {
 	protected static WInterface hudInterface = null;
 	protected static InGameHud inGameHudCache = null;

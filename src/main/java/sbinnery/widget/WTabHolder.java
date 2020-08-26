@@ -123,6 +123,7 @@ public class WTabHolder extends WAbstractWidget implements WCollection, WDelegat
 	}
 
 	@Override
+	@Environment(EnvType.CLIENT)
 	public void draw(MatrixStack matrices, VertexConsumerProvider.Immediate provider) {
 		if (isHidden()) {
 			return;
@@ -188,6 +189,7 @@ public class WTabHolder extends WAbstractWidget implements WCollection, WDelegat
 		}
 
 		@Override
+		@Environment(EnvType.CLIENT)
 		public void draw(MatrixStack matrices, VertexConsumerProvider.Immediate provider) {
 			body.draw(matrices, provider);
 

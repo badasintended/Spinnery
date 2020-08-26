@@ -330,10 +330,10 @@ public abstract class WAbstractWidget implements Tickable, WLayoutElement, WThem
 	@Override
 	@Environment(EnvType.CLIENT)
 	public void draw(MatrixStack matrices, VertexConsumerProvider.Immediate provider) {
-		if (hidden) return;
 	}
 
 	@Override
+	@Environment(EnvType.CLIENT)
 	public void drawTooltip(MatrixStack matrices, VertexConsumerProvider.Immediate provider) {
 		List<Text> list = getTooltip();
 

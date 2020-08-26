@@ -1,5 +1,7 @@
 package sbinnery.client.render;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.StringRenderable;
@@ -7,6 +9,7 @@ import net.minecraft.text.Text;
 import sbinnery.widget.api.Color;
 import sbinnery.widget.api.Position;
 
+@Environment(EnvType.CLIENT)
 public class TextRenderer {
 	public static RenderPass pass() {
 		return new RenderPass();

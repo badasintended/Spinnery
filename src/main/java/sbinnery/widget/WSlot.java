@@ -167,6 +167,7 @@ public class WSlot extends WAbstractWidget {
 		return maximumCount;
 	}
 
+	@Environment(EnvType.CLIENT)
 	public void setFocusedInScreen() {
 		Screen screen = MinecraftClient.getInstance().currentScreen;
 		if (screen != null) {
@@ -177,6 +178,7 @@ public class WSlot extends WAbstractWidget {
 		}
 	}
 
+	@Environment(EnvType.CLIENT)
 	public void setUnfocusedInScreen() {
 		Screen screen = MinecraftClient.getInstance().currentScreen;
 		if (screen != null) {
@@ -188,6 +190,7 @@ public class WSlot extends WAbstractWidget {
 	}
 
 	@Override
+	@Environment(EnvType.CLIENT)
 	public boolean updateFocus(float positionX, float positionY) {
 		boolean value = super.updateFocus(positionX, positionY);
 		if (isFocused()) {
@@ -400,6 +403,7 @@ public class WSlot extends WAbstractWidget {
 		return (W) this;
 	}
 
+	@Environment(EnvType.CLIENT)
 	public ItemStack getPreviewStack() {
 		getInterface().getHandler().getPreviewStacks().putIfAbsent(getInventoryNumber(), new HashMap<>());
 		return getInterface().getHandler().getPreviewStacks().get(getInventoryNumber()).getOrDefault(getSlotNumber(), ItemStack.EMPTY);
@@ -463,6 +467,7 @@ public class WSlot extends WAbstractWidget {
 		return (W) this;
 	}
 
+	@Environment(EnvType.CLIENT)
 	public <W extends WSlot> W setPreviewStack(ItemStack previewStack) {
 		getInterface().getHandler().getPreviewStacks().putIfAbsent(getInventoryNumber(), new HashMap<>());
 		getInterface().getHandler().getPreviewStacks().get(getInventoryNumber()).put(getSlotNumber(), previewStack);

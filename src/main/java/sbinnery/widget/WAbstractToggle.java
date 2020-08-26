@@ -1,9 +1,13 @@
 package sbinnery.widget;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+
 /**
  * A WAbstractBar provides the basics necessary for a
  * general toggle-like widget, like a {@link WToggle}.
  */
+@Environment(EnvType.CLIENT)
 public abstract class WAbstractToggle extends WAbstractWidget {
 	protected boolean toggleState = false;
 

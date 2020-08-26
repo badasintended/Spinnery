@@ -1,6 +1,8 @@
 package sbinnery.widget;
 
 import com.google.common.collect.ImmutableSet;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.util.math.MatrixStack;
 import sbinnery.client.utility.ScissorArea;
@@ -14,6 +16,7 @@ import java.util.Set;
 // TODO: Add smoothing.
 @SuppressWarnings("unchecked")
 @Deprecated // Will be fixed soon!
+@Environment(EnvType.CLIENT)
 public class WHorizontalScrollableContainer extends WAbstractWidget implements WModifiableCollection, WHorizontalScrollable, WDelegatedEventListener {
 	protected Set<WAbstractWidget> widgets = new HashSet<>();
 
@@ -214,6 +217,7 @@ public class WHorizontalScrollableContainer extends WAbstractWidget implements W
 	}
 
 	@Override
+	@Environment(EnvType.CLIENT)
 	public void draw(MatrixStack matrices, VertexConsumerProvider.Immediate provider) {
 		if (isHidden()) {
 			return;

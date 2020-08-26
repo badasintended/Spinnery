@@ -1,5 +1,7 @@
 package sbinnery.mixin;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -16,6 +18,7 @@ import sbinnery.widget.WInterface;
  * allow for addition of Spinner widgets.
  */
 @Mixin(InGameHud.class)
+@Environment(EnvType.CLIENT)
 public class InGameHudMixin implements InGameHudScreen.Accessor {
 
 	private final WInterface sbinnery$hudInterface = new WInterface();

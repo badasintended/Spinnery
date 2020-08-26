@@ -1,5 +1,7 @@
 package sbinnery.client.render;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.render.OverlayTexture;
@@ -14,6 +16,7 @@ import sbinnery.mixin.TextRendererAccessor;
 import sbinnery.client.render.layer.SpinneryLayers;
 import sbinnery.widget.api.Color;
 
+@Environment(EnvType.CLIENT)
 public class BaseRenderer {
 	private static final AdvancedTextRenderer advancedTextRenderer = new AdvancedTextRenderer();
 

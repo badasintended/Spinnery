@@ -24,6 +24,7 @@ public class WSprite extends WAbstractWidget {
 	}
 
 	@Override
+	@Environment(EnvType.CLIENT)
 	public void draw(MatrixStack matrices, VertexConsumerProvider.Immediate provider) {
 		if (isHidden()) {
 			return;

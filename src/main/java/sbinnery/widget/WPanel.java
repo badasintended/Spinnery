@@ -22,6 +22,7 @@ public class WPanel extends WAbstractWidget implements WModifiableCollection, WD
 
 
 	@Override
+	@Environment(EnvType.CLIENT)
 	public void draw(MatrixStack matrices, VertexConsumerProvider.Immediate provider) {
 		if (isHidden()) {
 			return;

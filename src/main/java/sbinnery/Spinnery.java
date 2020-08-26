@@ -11,7 +11,7 @@ import sbinnery.debug.DebugCommands;
 import sbinnery.debug.DebugScreenHandlers;
 
 public class Spinnery implements ModInitializer {
-	public static final String LOG_ID = "sBinnery";
+	public static final String LOG_ID = "sbinnery";
 	public static final String MOD_ID = "sbinnery";
 	public static Logger LOGGER = LogManager.getLogger(LOG_ID);
 

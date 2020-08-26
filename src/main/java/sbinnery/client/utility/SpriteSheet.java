@@ -1,5 +1,7 @@
 package sbinnery.client.utility;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
@@ -11,6 +13,7 @@ import sbinnery.widget.api.Color;
  * {@link sbinnery.widget.WSprite} and {@link sbinnery.widget.WStatusBar.BarConfig}
  * for drawing sprites.
  */
+@Environment(EnvType.CLIENT)
 public class SpriteSheet {
 	/**
 	 * The set of HUD icons used by Minecraft itself, for

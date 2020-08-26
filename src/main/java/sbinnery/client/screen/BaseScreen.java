@@ -1,5 +1,7 @@
 package sbinnery.client.screen;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -10,6 +12,7 @@ import sbinnery.common.utility.MouseUtilities;
 import sbinnery.widget.WInterface;
 import sbinnery.widget.api.WInterfaceProvider;
 
+@Environment(EnvType.CLIENT)
 public class BaseScreen extends Screen implements WInterfaceProvider {
 	protected final WInterface screenInterface = new WInterface();
 

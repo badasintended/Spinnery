@@ -1,5 +1,7 @@
 package sbinnery.widget;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.util.math.MatrixStack;
 import sbinnery.client.render.BaseRenderer;
@@ -7,6 +9,7 @@ import sbinnery.common.utility.MouseUtilities;
 import sbinnery.widget.api.Color;
 import sbinnery.widget.api.WVerticalScrollable;
 
+@Environment(EnvType.CLIENT)
 public class WVerticalScrollbar extends WAbstractWidget {
 	protected WVerticalScrollable scrollable;
 	protected float clickMouseY;

@@ -22,6 +22,7 @@ import sbinnery.widget.WSlot;
 import sbinnery.widget.api.WContextLock;
 import sbinnery.widget.api.WInterfaceProvider;
 
+@Environment(EnvType.CLIENT)
 public class BaseHandledScreen<T extends BaseScreenHandler> extends HandledScreen<T> implements WInterfaceProvider {
 	protected final WInterface clientInterface;
 	protected float tooltipX = 0;

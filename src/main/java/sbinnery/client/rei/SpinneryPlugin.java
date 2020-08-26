@@ -3,11 +3,14 @@ package sbinnery.client.rei;
 import me.shedaniel.math.Rectangle;
 import me.shedaniel.rei.api.DisplayHelper;
 import me.shedaniel.rei.api.plugins.REIPluginV0;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.util.Identifier;
 import sbinnery.Spinnery;
 import sbinnery.client.screen.BaseHandledScreen;
 import sbinnery.common.handler.BaseScreenHandler;
 
+@Environment(EnvType.CLIENT)
 public class SpinneryPlugin implements REIPluginV0 {
 	private static final Identifier IDENTIFIER = new Identifier(Spinnery.MOD_ID, "rei_plugin");
 

@@ -1,5 +1,7 @@
 package sbinnery.client.configuration.widget;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.util.math.MatrixStack;
@@ -8,6 +10,7 @@ import sbinnery.common.configuration.data.ConfigurationHolder;
 import sbinnery.widget.WTextField;
 import sbinnery.widget.api.Filter;
 
+@Environment(EnvType.CLIENT)
 public class WOptionField extends WTextField {
 	public ConfigurationHolder holder = null;
 
@@ -43,6 +46,7 @@ public class WOptionField extends WTextField {
 	}
 
 	@Override
+	@Environment(EnvType.CLIENT)
 	public void draw(MatrixStack matrices, VertexConsumerProvider.Immediate provider) {
 		if (isHidden()) {
 			return;

@@ -1,5 +1,7 @@
 package sbinnery.widget;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.util.Identifier;
 import org.apache.commons.lang3.mutable.Mutable;
 
@@ -8,6 +10,7 @@ import org.apache.commons.lang3.mutable.Mutable;
  * general progress-bar-like widget, like an {@link WVerticalBar}
  * and {@link WHorizontalBar}.
  */
+@Environment(EnvType.CLIENT)
 public abstract class WAbstractBar extends WAbstractWidget {
 	protected Mutable<Number> limit;
 	protected Mutable<Number> progress;

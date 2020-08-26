@@ -8,6 +8,7 @@ import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.util.math.MatrixStack;
 import sbinnery.mixin.GlyphRendererAccessor;
 
+@Environment(EnvType.CLIENT)
 public class AdvancedGlyphRenderer extends GlyphRenderer {
 	private final RenderLayer defaultLayer;
 	private final RenderLayer seeThroughLayer;

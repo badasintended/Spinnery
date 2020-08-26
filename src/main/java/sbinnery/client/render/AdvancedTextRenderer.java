@@ -27,6 +27,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.function.Function;
 
+@Environment(EnvType.CLIENT)
 public class AdvancedTextRenderer {
 	private static final Vector3f FORWARD_SHIFT = new Vector3f(0.0F, 0.0F, 0.03F);
 

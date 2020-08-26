@@ -8,6 +8,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
+import sbinnery.Spinnery;
 import sbinnery.client.screen.BaseHandledScreen;
 import sbinnery.common.handler.BaseScreenHandler;
 import sbinnery.common.registry.NetworkRegistry;
@@ -49,15 +50,6 @@ public class WInterface implements WModifiableCollection, WLayoutElement, WThema
 	public <W extends WInterface> W setHandler(BaseScreenHandler handler) {
 		this.handler = handler;
 		return (W) this;
-	}
-
-	@Deprecated
-	public BaseScreenHandler getContainer() {
-		return getHandler();
-	}
-
-	public <W extends WInterface> W setContainer(BaseScreenHandler handler) {
-		return setHandler(handler);
 	}
 
 	public boolean isClient() {
@@ -108,6 +100,7 @@ public class WInterface implements WModifiableCollection, WLayoutElement, WThema
 		onLayoutChange();
 	}
 
+	@Environment(EnvType.CLIENT)
 	public void onMouseClicked(float mouseX, float mouseY, int mouseButton) {
 		for (WAbstractWidget widget : getWidgets()) {
 			if (!EventUtilities.canReceiveMouse(widget)) continue;
@@ -119,6 +112,7 @@ public class WInterface implements WModifiableCollection, WLayoutElement, WThema
 		}
 	}
 
+	@Environment(EnvType.CLIENT)
 	public void onMouseReleased(float mouseX, float mouseY, int mouseButton) {
 		for (WAbstractWidget widget : getWidgets()) {
 			if (!EventUtilities.canReceiveMouse(widget)) continue;
@@ -130,6 +124,7 @@ public class WInterface implements WModifiableCollection, WLayoutElement, WThema
 		}
 	}
 
+	@Environment(EnvType.CLIENT)
 	public boolean onMouseDragged(float mouseX, float mouseY, int mouseButton, double deltaX, double deltaY) {
 		for (WAbstractWidget widget : getWidgets()) {
 			if (!EventUtilities.canReceiveMouse(widget)) continue;
@@ -142,6 +137,7 @@ public class WInterface implements WModifiableCollection, WLayoutElement, WThema
 		return false;
 	}
 
+	@Environment(EnvType.CLIENT)
 	public void onMouseScrolled(float mouseX, float mouseY, double deltaY) {
 		for (WAbstractWidget widget : getWidgets()) {
 			if (!EventUtilities.canReceiveMouse(widget)) continue;
@@ -153,6 +149,7 @@ public class WInterface implements WModifiableCollection, WLayoutElement, WThema
 		}
 	}
 
+	@Environment(EnvType.CLIENT)
 	public void onMouseMoved(float mouseX, float mouseY) {
 		for (WAbstractWidget widget : getWidgets()) {
 			widget.updateFocus(mouseX, mouseY);
@@ -165,6 +162,7 @@ public class WInterface implements WModifiableCollection, WLayoutElement, WThema
 		}
 	}
 
+	@Environment(EnvType.CLIENT)
 	public void onKeyReleased(int keyCode, int character, int keyModifier) {
 		for (WAbstractWidget widget : getWidgets()) {
 			if (!EventUtilities.canReceiveKeyboard(widget)) continue;
@@ -176,6 +174,7 @@ public class WInterface implements WModifiableCollection, WLayoutElement, WThema
 		}
 	}
 
+	@Environment(EnvType.CLIENT)
 	public void onKeyPressed(int keyCode, int character, int keyModifier) {
 		for (WAbstractWidget widget : getWidgets()) {
 			if (!EventUtilities.canReceiveKeyboard(widget)) continue;
@@ -187,6 +186,7 @@ public class WInterface implements WModifiableCollection, WLayoutElement, WThema
 		}
 	}
 
+	@Environment(EnvType.CLIENT)
 	public void onCharTyped(char character, int keyCode) {
 		for (WAbstractWidget widget : getWidgets()) {
 			if (!EventUtilities.canReceiveKeyboard(widget)) continue;
@@ -198,12 +198,14 @@ public class WInterface implements WModifiableCollection, WLayoutElement, WThema
 		}
 	}
 
+	@Environment(EnvType.CLIENT)
 	public void onDrawMouseoverTooltip(float mouseX, float mouseY) {
 		for (WAbstractWidget widget : getWidgets()) {
 			widget.onDrawTooltip(mouseX, mouseY);
 		}
 	}
 
+	@Environment(EnvType.CLIENT)
 	public void onAlign() {
 		for (WAbstractWidget widget : getWidgets()) {
 			widget.align();
@@ -218,6 +220,7 @@ public class WInterface implements WModifiableCollection, WLayoutElement, WThema
 	}
 
 	@Override
+	@Environment(EnvType.CLIENT)
 	public void draw(MatrixStack matrices, VertexConsumerProvider.Immediate provider) {
 		for (WLayoutElement widget : widgets) {
 			widget.draw(matrices, provider);
@@ -235,11 +238,11 @@ public class WInterface implements WModifiableCollection, WLayoutElement, WThema
 	}
 
 	@Override
+	@SuppressWarnings({"MethodCallSideOnly", "LocalVariableDeclarationSideOnly"})
 	public void onLayoutChange() {
-		if (handler != null && FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) {
-			BaseHandledScreen<?> screen = (BaseHandledScreen<?>) MinecraftClient.getInstance().currentScreen;
-
-			if (screen != null) {
+		if (handler != null && Spinnery.ENVIRONMENT == EnvType.CLIENT) {
+			if (MinecraftClient.getInstance().currentScreen instanceof BaseHandledScreen<?>) {
+				BaseHandledScreen<?> screen = (BaseHandledScreen<?>) MinecraftClient.getInstance().currentScreen;
 				screen.updateDimensions();
 			}
 		}
@@ -275,14 +278,4 @@ public class WInterface implements WModifiableCollection, WLayoutElement, WThema
 		return MinecraftClient.getInstance().getWindow().getScaledHeight();
 	}
 
-
-	@Deprecated
-	public boolean isBlurred() {
-		return false;
-	}
-
-	@Deprecated
-	public <W extends WInterface> W setBlurred(boolean isBlurred) {
-		return (W) this;
-	}
 }

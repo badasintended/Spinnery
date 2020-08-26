@@ -1,6 +1,8 @@
 package sbinnery.widget;
 
 import com.google.common.collect.ImmutableSet;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.util.math.MatrixStack;
 import org.lwjgl.glfw.GLFW;
@@ -16,6 +18,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @SuppressWarnings({"UnusedReturnValue", "unchecked"})
+@Environment(EnvType.CLIENT)
 public class WVerticalScrollableContainer extends WAbstractWidget implements WModifiableCollection, WVerticalScrollable, WDelegatedEventListener {
 	protected Set<WAbstractWidget> widgets = new HashSet<>();
 
@@ -532,6 +535,7 @@ public class WVerticalScrollableContainer extends WAbstractWidget implements WMo
 	}
 
 	@Override
+	@Environment(EnvType.CLIENT)
 	public void draw(MatrixStack matrices, VertexConsumerProvider.Immediate provider) {
 		if (isHidden()) {
 			return;

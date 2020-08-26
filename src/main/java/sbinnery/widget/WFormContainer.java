@@ -1,6 +1,8 @@
 package sbinnery.widget;
 
 import com.google.common.collect.ImmutableSet;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.util.math.MatrixStack;
 import sbinnery.client.render.BaseRenderer;
@@ -9,6 +11,7 @@ import sbinnery.widget.api.*;
 
 import java.util.*;
 
+@Environment(EnvType.CLIENT)
 public class WFormContainer extends WAbstractWidget implements WModifiableCollection, WDelegatedEventListener {
 	protected Set<WAbstractWidget> widgets = new HashSet<>();
 
@@ -214,6 +217,7 @@ public class WFormContainer extends WAbstractWidget implements WModifiableCollec
 	}
 
 	@Override
+	@Environment(EnvType.CLIENT)
 	public void draw(MatrixStack matrices, VertexConsumerProvider.Immediate provider) {
 		if (isHidden()) {
 			return;

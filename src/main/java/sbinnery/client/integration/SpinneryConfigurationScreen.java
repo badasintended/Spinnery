@@ -1,11 +1,14 @@
 package sbinnery.client.integration;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import sbinnery.Spinnery;
 import sbinnery.client.configuration.screen.ConfigurationScreen;
 import sbinnery.common.configuration.data.ConfigurationHolder;
 import sbinnery.common.configuration.data.ConfigurationOption;
 import sbinnery.common.configuration.registry.ConfigurationRegistry;
 
+@Environment(EnvType.CLIENT)
 public class SpinneryConfigurationScreen extends ConfigurationScreen {
 	@ConfigurationOption(name = Spinnery.MOD_ID)
 	public static final ConfigurationHolder<String> preferredTheme = new ConfigurationHolder<>("spinnery:default");

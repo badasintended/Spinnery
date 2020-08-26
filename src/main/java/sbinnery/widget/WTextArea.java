@@ -28,6 +28,7 @@ public class WTextArea extends WAbstractTextEditor {
 	}
 
 	@Override
+	@Environment(EnvType.CLIENT)
 	public void draw(MatrixStack matrices, VertexConsumerProvider.Immediate provider) {
 		if (isHidden()) {
 			return;

@@ -1,11 +1,14 @@
 package sbinnery.widget;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.util.math.MatrixStack;
 import sbinnery.client.render.BaseRenderer;
 import sbinnery.widget.api.WHorizontalScrollable;
 
 @Deprecated // Will be fixed soon!
+@Environment(EnvType.CLIENT)
 public class WHorizontalScrollbar extends WAbstractWidget {
 	protected WHorizontalScrollable scrollable;
 	protected double clickMouseX;
@@ -17,6 +20,7 @@ public class WHorizontalScrollbar extends WAbstractWidget {
 	}
 
 	@Override
+	@Environment(EnvType.CLIENT)
 	public void draw(MatrixStack matrices, VertexConsumerProvider.Immediate provider) {
 		if (isHidden()) {
 			return;
