@@ -71,9 +71,9 @@ public class TextRenderer {
 		}
 
 		public RenderPass at(Number x, Number y, Number z) {
-			this.x = x.floatValue();
-			this.y = y.floatValue();
-			this.z = z.floatValue();
+			this.x = x.intValue();
+			this.y = y.intValue();
+			this.z = z.intValue();
 			return this;
 		}
 

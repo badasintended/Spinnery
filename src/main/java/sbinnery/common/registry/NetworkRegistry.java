@@ -215,26 +215,25 @@ public class NetworkRegistry {
 	@Environment(EnvType.CLIENT)
 	public static void initializeClient() {
 		ClientSidePacketRegistry.INSTANCE.register(SLOT_UPDATE_PACKET, (packetContext, packetByteBuffer) -> {
-					int syncId = packetByteBuffer.readInt();
-					int slotNumber = packetByteBuffer.readInt();
-					int inventoryNumber = packetByteBuffer.readInt();
-					CompoundTag tag = packetByteBuffer.readCompoundTag();
-					ItemStack stack = ItemStack.fromTag(tag);
+			int syncId = packetByteBuffer.readInt();
+			int slotNumber = packetByteBuffer.readInt();
+			int inventoryNumber = packetByteBuffer.readInt();
+			CompoundTag tag = packetByteBuffer.readCompoundTag();
+			ItemStack stack = ItemStack.fromTag(tag);
 
-					packetContext.getTaskQueue().execute(() -> {
-						if (packetContext.getPlayer().currentScreenHandler instanceof BaseScreenHandler && packetContext.getPlayer().currentScreenHandler.syncId == syncId) {
-							BaseScreenHandler handler = (BaseScreenHandler) packetContext.getPlayer().currentScreenHandler;
+			packetContext.getTaskQueue().execute(() -> {
+				if (packetContext.getPlayer().currentScreenHandler instanceof BaseScreenHandler && packetContext.getPlayer().currentScreenHandler.syncId == syncId) {
+					BaseScreenHandler handler = (BaseScreenHandler) packetContext.getPlayer().currentScreenHandler;
 
-							handler.getInventory(inventoryNumber).setStack(slotNumber, stack);
+					handler.getInventory(inventoryNumber).setStack(slotNumber, stack);
 
-							WSlot slot = handler.getInterface().getSlot(inventoryNumber, slotNumber);
+					WSlot slot = handler.getInterface().getSlot(inventoryNumber, slotNumber);
 
-							if (slot != null) {
-								slot.setStack(handler.getInventory(inventoryNumber).getStack(slotNumber));
-							}
-						}
-					});
+					if (slot != null) {
+						slot.setStack(handler.getInventory(inventoryNumber).getStack(slotNumber));
+					}
 				}
-		);
+			});
+		});
 	}
 }

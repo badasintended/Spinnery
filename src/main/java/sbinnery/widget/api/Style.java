@@ -205,7 +205,6 @@ public class Style {
 	 *
 	 * @param property Property to be retrieved.
 	 * @param anchor   Property as an anchored Position, defaulting to the anchor's position if conversion fails.
-	 * @return
 	 */
 	public Position asAnchoredPosition(String property, WAbstractWidget anchor) {
 		JsonElement el = getElement(property);

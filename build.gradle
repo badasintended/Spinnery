@@ -1,5 +1,5 @@
 plugins {
-	id 'fabric-loom' version '0.2.7-SNAPSHOT'
+	id 'fabric-loom' version '0.4-SNAPSHOT'
 	id 'maven-publish'
 	id "com.jfrog.bintray" version "1.8.4"
 }
@@ -38,9 +38,6 @@ bintray {
 	}
 }
 
-minecraft {
-}
-
 dependencies {
 	// Minecraft
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
@@ -59,10 +56,10 @@ dependencies {
 	include "blue.endless:jankson:${jankson_version}"
 
 	// ModMenu
-	modCompileOnly "io.github.prospector:modmenu:${modmenu_version}"
+	modImplementation("io.github.prospector:modmenu:${modmenu_version}") { exclude group: "net.fabricmc.fabric-api" }
 
 	// RoughlyEnoughItems
-	modCompileOnly "me.shedaniel:RoughlyEnoughItems:${rei_version}"
+	modImplementation("me.shedaniel:RoughlyEnoughItems:${rei_version}") { exclude group: "net.fabricmc.fabric-api" }
 }
 
 processResources {

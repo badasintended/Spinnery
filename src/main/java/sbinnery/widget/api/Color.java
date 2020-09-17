@@ -11,7 +11,7 @@ import blue.endless.jankson.JsonPrimitive;
 public class Color implements JanksonSerializable {
 	public static final Color DEFAULT = Color.of(0xffffffff);
 
-	public float A = 1.0f, R = 1.0f, G = 1.0f, B = 1.0f;
+	public float A, R, G, B;
 
 	public int ARGB = 0xffffffff;
 	public int RGB = 0xffffff;
@@ -35,22 +35,18 @@ public class Color implements JanksonSerializable {
 		return i;
 	}
 
-	public Color(String ARGB) {
-		if (ARGB.length() == 8) {
-			R = Integer.decode("0x" + ARGB.substring(2, 4)) / 255f;
-			G = Integer.decode("0x" + ARGB.substring(4, 6)) / 255f;
-			B = Integer.decode("0x" + ARGB.substring(6, 8)) / 255f;
-			this.RGB = Integer.decode(ARGB);
+	public Color(String str) {
+		if (str.length() == 8) {
+			this.RGB = Integer.parseUnsignedInt(str.substring(2), 16);
 			this.ARGB = RGB + (0xFF << 24);
-		} else if (ARGB.length() == 10) {
-			int alpha = Integer.decode("0x" + ARGB.substring(2, 4));
-			A = alpha / 255f;
-			R = Integer.decode("0x" + ARGB.substring(4, 6)) / 255f;
-			G = Integer.decode("0x" + ARGB.substring(6, 8)) / 255f;
-			B = Integer.decode("0x" + ARGB.substring(8, 10)) / 255f;
-			this.RGB = Integer.decode("0x" + ARGB.substring(4));
-			this.ARGB = RGB + (alpha << 24);
+		} else if (str.length() == 10) {
+			this.ARGB = Integer.parseUnsignedInt(str.substring(2), 16);
+			this.RGB = ARGB & 0xFFFFFF;
 		}
+		A = (ARGB >> 24 & 0xFF) / 255f;
+		R = (ARGB >> 16 & 0xFF) / 255f;
+		G = (ARGB >> 8 & 0xFF) / 255f;
+		B = (ARGB & 0xFF) / 255f;
 	}
 
 	public static Color of(String ARGB) {

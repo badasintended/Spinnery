@@ -161,7 +161,7 @@ public class BaseRenderer {
 	}
 
 	public static ItemRenderer getItemRenderer() {
-		return getDefaultItemRenderer();
+		return MinecraftClient.getInstance().getItemRenderer();
 	}
 
 	public static TextRenderer getTextRenderer() {
@@ -170,10 +170,6 @@ public class BaseRenderer {
 
 	public static TextureManager getTextureManager() {
 		return MinecraftClient.getInstance().getTextureManager();
-	}
-
-	public static ItemRenderer getDefaultItemRenderer() {
-		return MinecraftClient.getInstance().getItemRenderer();
 	}
 
 	public static TextRenderer getDefaultTextRenderer() {

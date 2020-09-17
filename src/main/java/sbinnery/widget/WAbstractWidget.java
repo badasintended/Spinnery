@@ -724,10 +724,10 @@ public abstract class WAbstractWidget implements Tickable, WLayoutElement, WThem
 	@Environment(EnvType.CLIENT)
 	public void setFocus(boolean hasFocus) {
 		if (!isFocused() && hasFocus) {
-			this.focused = hasFocus;
+			this.focused = true;
 		}
 		if (isFocused() && !hasFocus) {
-			this.focused = hasFocus;
+			this.focused = false;
 		}
 	}
 

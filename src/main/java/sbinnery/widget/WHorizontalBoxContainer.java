@@ -139,10 +139,9 @@ public class WHorizontalBoxContainer extends WAbstractWidget implements WModifia
 		float lastPositionX = leftRightPadding;
 		float positionY = topBottomPadding;
 		float widgetSizeX = totalWidgetSizeX / Math.max(this.widgets.size(), 1);
-		float widgetSizeY = totalWidgetSizeY;
 
 		for (WAbstractWidget widget : widgets) {
-			Size newWidgetSize = Size.of(widgetSizeX, widgetSizeY);
+			Size newWidgetSize = Size.of(widgetSizeX, totalWidgetSizeY);
 
 			if (widget.getMaximumAutoSize().isSmallerInWidthOrHeight(newWidgetSize)) {
 				newWidgetSize = widget.getMaximumAutoSize();

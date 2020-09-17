@@ -23,7 +23,6 @@ public interface WLayoutElement extends WPositioned, WSized, Comparable<WLayoutE
 	 * Method called every frame, where widget tooltip rendering happens.
 	 */
 	default void drawTooltip(MatrixStack matrices, VertexConsumerProvider.Immediate provider) {
-		return;
 	}
 
 	default List<Text> getTooltip() {

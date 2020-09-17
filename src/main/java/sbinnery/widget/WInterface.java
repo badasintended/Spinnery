@@ -230,11 +230,7 @@ public class WInterface implements WModifiableCollection, WLayoutElement, WThema
 	public <W extends WSlot> W getSlot(int inventoryNumber, int slotNumber) {
 		Optional<WAbstractWidget> slot = getAllWidgets().stream().filter(widget -> widget instanceof WSlot && ((WSlot) widget).inventoryNumber == inventoryNumber && ((WSlot) widget).slotNumber == slotNumber).findFirst();
 
-		if (slot.isPresent()) {
-			return (W) slot.get();
-		} else {
-			return null;
-		}
+		return (W) slot.orElse(null);
 	}
 
 	@Override

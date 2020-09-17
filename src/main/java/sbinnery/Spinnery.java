@@ -7,8 +7,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import sbinnery.common.configuration.registry.ConfigurationRegistry;
 import sbinnery.common.registry.NetworkRegistry;
-import sbinnery.debug.DebugCommands;
-import sbinnery.debug.DebugScreenHandlers;
 
 public class Spinnery implements ModInitializer {
 	public static final String LOG_ID = "sbinnery";
@@ -21,10 +19,5 @@ public class Spinnery implements ModInitializer {
 	public void onInitialize() {
 		NetworkRegistry.initialize();
 		ConfigurationRegistry.initialize();
-
-		if (FabricLoader.getInstance().isDevelopmentEnvironment()) {
-			DebugScreenHandlers.initialize();
-			DebugCommands.initialize();
-		}
 	}
 }
